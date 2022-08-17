@@ -5,7 +5,9 @@ extension GetWeatherImage on String {
         return 'assets/clear.png';
       case 'Clouds':
         return 'assets/cloudy.png';
-      case 'Rainy':
+      case 'Rain':
+        return 'assets/rainy.png';
+      case 'Drizzle':
         return 'assets/rainy.png';
       case 'Snow':
         return 'assets/snow.png';

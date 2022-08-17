@@ -1,47 +1,146 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:weather_mvvm/src/logic/background_controller.dart';
 import 'package:weather_mvvm/src/logic/get_image.dart';
 import 'package:weather_mvvm/src/logic/to_celsius.dart';
 import 'package:weather_mvvm/src/view_model/weather_view_model.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
+
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  bool _isSearchMode = false;
+  final TextEditingController _controller = TextEditingController();
+  @override
+  void dispose() {
+    super.dispose();
+    _controller.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     Get.lazyPut(() => WeatherViewModel());
+    Get.lazyPut(() => BackgroundController());
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.yellow[800],
+        backgroundColor: Colors.blue,
+        title: _isSearchMode
+            ? WeatherTextField(
+                controller: _controller,
+              )
+            : Text(
+                'Weather',
+                style: Theme.of(context).textTheme.subtitle1,
+              ),
+        leading: _isSearchMode
+            ? IconButton(
+                onPressed: () {
+                  _isSearchMode = false;
+                  setState(() {});
+                },
+                icon: const Icon(Icons.close),
+              )
+            : null,
+        actions: [
+          IconButton(
+            onPressed: () {
+              _isSearchMode = true;
+              Get.find<WeatherViewModel>()
+                  .searchCityWeather(cityName: _controller.text);
+              FocusScope.of(context).unfocus();
+              setState(() {});
+            },
+            icon: const Icon(Icons.search),
+          ),
+        ],
       ),
       body: GetBuilder<WeatherViewModel>(
         init: WeatherViewModel(),
         builder: (weather) {
           return Stack(
             children: [
-              SizedBox.expand(
-                child: DecoratedBox(
-                  decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                      begin: Alignment.topCenter,
-                      end: Alignment.bottomCenter,
-                      stops: const [0.25, 0.5, 0.70, 1.0],
-                      colors: [
-                        Colors.yellow[800]!,
-                        Colors.yellow[700]!,
-                        Colors.yellow[500]!,
-                        Colors.yellow[400]!,
-                      ],
-                    ),
-                  ),
-                ),
-              ),
+              const BackgroundColor(),
               WeatherMainData(weather: weather),
             ],
           );
         },
       ),
+    );
+  }
+}
+
+class WeatherTextField extends StatelessWidget {
+  final TextEditingController? controller;
+  const WeatherTextField({Key? key, this.controller}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    return GetBuilder<BackgroundController>(
+      builder: (color) {
+        return SizedBox(
+          height: 50,
+          child: TextFormField(
+            controller: controller,
+            onFieldSubmitted: (value) {
+              Get.find<WeatherViewModel>().searchCityWeather(cityName: value);
+            },
+            cursorColor: color.appBarColor,
+            showCursor: true,
+            style: theme.textTheme.headline1!.copyWith(fontSize: 20),
+            textInputAction: TextInputAction.done,
+            decoration: InputDecoration(
+              hintText: 'City name',
+              hintStyle: theme.textTheme.subtitle1!.copyWith(fontSize: 18),
+              contentPadding: const EdgeInsets.all(10),
+              enabledBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(16),
+                borderSide: BorderSide(
+                  color: color.appBarColor,
+                ),
+              ),
+              focusedBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(16),
+                borderSide: BorderSide(
+                  color: color.appBarColor,
+                ),
+              ),
+            ),
+          ),
+        );
+      },
+    );
+  }
+}
+
+class BackgroundColor extends StatelessWidget {
+  const BackgroundColor({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return GetBuilder<BackgroundController>(
+      init: BackgroundController(),
+      builder: (color) {
+        return SizedBox.expand(
+          child: DecoratedBox(
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+                stops: const [0.25, 0.5, 0.70, 1.0],
+                colors: color.colorList,
+              ),
+            ),
+          ),
+        );
+      },
     );
   }
 }

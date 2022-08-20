@@ -4,7 +4,9 @@ import 'package:get/get.dart';
 import 'package:weather_mvvm/src/logic/background_controller.dart';
 import 'package:weather_mvvm/src/logic/get_image.dart';
 import 'package:weather_mvvm/src/logic/to_celsius.dart';
+import 'package:weather_mvvm/src/utils/constans.dart';
 import 'package:weather_mvvm/src/view_model/weather_view_model.dart';
+import 'package:weather_mvvm/src/views/setting_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -57,6 +59,17 @@ class _HomeScreenState extends State<HomeScreen> {
             },
             icon: const Icon(Icons.search),
           ),
+          if (!_isSearchMode)
+            IconButton(
+              onPressed: () {
+                navKey.currentState!.push(
+                  MaterialPageRoute(
+                    builder: (context) => const SettingScreen(),
+                  ),
+                );
+              },
+              icon: const Icon(Icons.settings),
+            ),
         ],
       ),
       body: GetBuilder<WeatherViewModel>(
@@ -76,7 +89,16 @@ class _HomeScreenState extends State<HomeScreen> {
 
 class WeatherTextField extends StatelessWidget {
   final TextEditingController? controller;
-  const WeatherTextField({Key? key, this.controller}) : super(key: key);
+  final String? hintText;
+  final TextStyle? hintStyle;
+  final TextStyle? textStyle;
+  const WeatherTextField({
+    Key? key,
+    this.controller,
+    this.hintText = 'City name',
+    this.hintStyle,
+    this.textStyle,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -92,11 +114,13 @@ class WeatherTextField extends StatelessWidget {
             },
             cursorColor: color.appBarColor,
             showCursor: true,
-            style: theme.textTheme.headline1!.copyWith(fontSize: 20),
+            style:
+                textStyle ?? theme.textTheme.headline1!.copyWith(fontSize: 20),
             textInputAction: TextInputAction.done,
             decoration: InputDecoration(
-              hintText: 'City name',
-              hintStyle: theme.textTheme.subtitle1!.copyWith(fontSize: 18),
+              hintText: hintText,
+              hintStyle: hintStyle ??
+                  theme.textTheme.subtitle1!.copyWith(fontSize: 18),
               contentPadding: const EdgeInsets.all(10),
               enabledBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(16),
@@ -188,17 +212,17 @@ class WeatherMainData extends StatelessWidget {
               children: [
                 Image.asset(weather.weatherModel.weather![0].main!.toImage()),
                 Text(
-                  '${weather.weatherModel.main!.temp!.toCelsius()} C°',
+                  '${weather.weatherModel.main!.temp!.unit()} C°',
                   style: theme.textTheme.headline1!.copyWith(fontSize: 30),
                 ),
                 Column(
                   children: [
                     Text(
-                      'max ${weather.weatherModel.main!.tempMax!.toCelsius()} C°',
+                      'max ${weather.weatherModel.main!.tempMax!.unit()} C°',
                       style: theme.textTheme.subtitle1!.copyWith(fontSize: 18),
                     ),
                     Text(
-                      'min ${weather.weatherModel.main!.tempMin!.toCelsius()} C°',
+                      'min ${weather.weatherModel.main!.tempMin!.unit()} C°',
                       style: theme.textTheme.subtitle1!.copyWith(fontSize: 18),
                     ),
                   ],

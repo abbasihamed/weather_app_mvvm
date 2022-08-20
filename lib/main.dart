@@ -2,11 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:weather_mvvm/injection.dart';
 import 'package:weather_mvvm/src/utils/app_theme.dart';
+import 'package:weather_mvvm/src/utils/constans.dart';
 import 'package:weather_mvvm/src/views/home_screen.dart';
 
 import 'src/view_model/weather_view_model.dart';
 
 void main(List<String> args) {
+  WidgetsFlutterBinding.ensureInitialized();
   setup();
   runApp(const MyApp());
 }
@@ -19,6 +21,7 @@ class MyApp extends StatelessWidget {
     Get.lazyPut(() => WeatherViewModel());
     return MaterialApp(
       debugShowCheckedModeBanner: false,
+      navigatorKey: navKey,
       title: 'Weather',
       theme: AppTheme.appTheme,
       home: const HomeScreen(),

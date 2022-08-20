@@ -3,10 +3,10 @@ import 'package:weather_mvvm/injection.dart';
 import 'package:weather_mvvm/src/data/api_state.dart';
 import 'package:weather_mvvm/src/data/weather_api.dart';
 import 'package:weather_mvvm/src/logic/background_controller.dart';
+import 'package:weather_mvvm/src/logic/setting_controller.dart';
 import 'package:weather_mvvm/src/logic/validation.dart';
 import 'package:weather_mvvm/src/models/error_models.dart';
 import 'package:weather_mvvm/src/models/weather_models.dart';
-import 'package:weather_mvvm/src/views/home_screen.dart';
 
 class WeatherViewModel extends GetxController {
   late WeatherModel _weatherModel;
@@ -34,8 +34,10 @@ class WeatherViewModel extends GetxController {
 
   getWeather() async {
     setLoading(true);
-    var response =
-        await injection.get<WeatherServices>().getWeather(cityName: 'London');
+    final _cityName = await injection.get<SettingController>().getDefaultCity();
+    var response = await injection
+        .get<WeatherServices>()
+        .getWeather(cityName: _cityName ?? 'London');
     if (response is Success) {
       setWeatherData(response.successResponse!);
       Get.find<BackgroundController>()

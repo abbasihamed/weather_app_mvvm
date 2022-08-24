@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:weather_mvvm/injection.dart';
 import 'package:weather_mvvm/src/data/api_state.dart';
@@ -7,13 +8,16 @@ import 'package:weather_mvvm/src/logic/setting_controller.dart';
 import 'package:weather_mvvm/src/logic/validation.dart';
 import 'package:weather_mvvm/src/models/error_models.dart';
 import 'package:weather_mvvm/src/models/weather_models.dart';
+import 'package:weather_mvvm/src/utils/constans.dart';
 
 class WeatherViewModel extends GetxController {
   late WeatherModel _weatherModel;
   ErrorServices? _errorServices;
   bool _loading = true;
+  bool _showSnackBar = false;
 
   bool get loading => _loading;
+  bool get showSnack => _showSnackBar;
   WeatherModel get weatherModel => _weatherModel;
   ErrorServices? get errorServices => _errorServices;
 
@@ -68,9 +72,20 @@ class WeatherViewModel extends GetxController {
       }
       setLoading(false);
     } else {
-      print('city name is empty');
-      // TODO: add toast in here
+      showSnackBar();
     }
+  }
+
+  showSnackBar() {
+    scaffoldKey.currentState!.showSnackBar(
+      SnackBar(
+        content: Text(
+          'City name can not be empty',
+          style: Theme.of(navKey.currentContext!).textTheme.subtitle1,
+        ),
+        duration: const Duration(seconds: 1),
+      ),
+    );
   }
 
   @override

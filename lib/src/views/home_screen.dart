@@ -53,16 +53,24 @@ class _HomeScreenState extends State<HomeScreen> {
               )
             : null,
         actions: [
-          IconButton(
-            onPressed: () {
-              _isSearchMode = true;
-              Get.find<WeatherViewModel>()
-                  .searchCityWeather(cityName: _controller.text);
-              FocusScope.of(context).unfocus();
-              setState(() {});
-            },
-            icon: const Icon(Icons.search),
-          ),
+          _isSearchMode
+              ? IconButton(
+                  onPressed: () {
+                    _isSearchMode = true;
+                    Get.find<WeatherViewModel>()
+                        .searchCityWeather(cityName: _controller.text);
+                    FocusScope.of(context).unfocus();
+                    setState(() {});
+                  },
+                  icon: const Icon(Icons.search),
+                )
+              : IconButton(
+                  onPressed: () {
+                    _isSearchMode = true;              
+                    setState(() {});
+                  },
+                  icon: const Icon(Icons.search),
+                ),
           if (!_isSearchMode)
             IconButton(
               onPressed: () {

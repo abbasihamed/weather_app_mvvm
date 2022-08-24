@@ -22,6 +22,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       navigatorKey: navKey,
+      scaffoldMessengerKey: scaffoldKey,
       title: 'Weather',
       theme: AppTheme.appTheme,
       home: const HomeScreen(),

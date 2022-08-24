@@ -1,6 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:weather_mvvm/src/components/app_error.dart';
+import 'package:weather_mvvm/src/components/app_loading.dart';
+import 'package:weather_mvvm/src/components/app_textfield.dart';
+import 'package:weather_mvvm/src/components/background.dart';
 import 'package:weather_mvvm/src/logic/background_controller.dart';
 import 'package:weather_mvvm/src/logic/get_image.dart';
 import 'package:weather_mvvm/src/logic/to_celsius.dart';
@@ -82,120 +86,6 @@ class _HomeScreenState extends State<HomeScreen> {
             ],
           );
         },
-      ),
-    );
-  }
-}
-
-class WeatherTextField extends StatelessWidget {
-  final TextEditingController? controller;
-  final String? hintText;
-  final TextStyle? hintStyle;
-  final TextStyle? textStyle;
-  const WeatherTextField({
-    Key? key,
-    this.controller,
-    this.hintText = 'City name',
-    this.hintStyle,
-    this.textStyle,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    return GetBuilder<BackgroundController>(
-      builder: (color) {
-        return SizedBox(
-          height: 50,
-          child: TextFormField(
-            controller: controller,
-            onFieldSubmitted: (value) {
-              Get.find<WeatherViewModel>().searchCityWeather(cityName: value);
-            },
-            cursorColor: color.appBarColor,
-            showCursor: true,
-            style:
-                textStyle ?? theme.textTheme.headline1!.copyWith(fontSize: 20),
-            textInputAction: TextInputAction.done,
-            decoration: InputDecoration(
-              hintText: hintText,
-              hintStyle: hintStyle ??
-                  theme.textTheme.subtitle1!.copyWith(fontSize: 18),
-              contentPadding: const EdgeInsets.all(10),
-              enabledBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(16),
-                borderSide: BorderSide(
-                  color: color.appBarColor,
-                ),
-              ),
-              focusedBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(16),
-                borderSide: BorderSide(
-                  color: color.appBarColor,
-                ),
-              ),
-            ),
-          ),
-        );
-      },
-    );
-  }
-}
-
-class BackgroundColor extends StatelessWidget {
-  const BackgroundColor({
-    Key? key,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return GetBuilder<BackgroundController>(
-      init: BackgroundController(),
-      builder: (color) {
-        return SizedBox.expand(
-          child: DecoratedBox(
-            decoration: BoxDecoration(
-              gradient: LinearGradient(
-                begin: Alignment.topCenter,
-                end: Alignment.bottomCenter,
-                stops: const [0.25, 0.5, 0.70, 1.0],
-                colors: color.colorList,
-              ),
-            ),
-          ),
-        );
-      },
-    );
-  }
-}
-
-class WeatherLoading extends StatelessWidget {
-  const WeatherLoading({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return const Center(
-      child: CupertinoActivityIndicator(
-        radius: 35,
-      ),
-    );
-  }
-}
-
-class AppError extends StatelessWidget {
-  final String? errorText;
-
-  const AppError({Key? key, this.errorText}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Center(
-      child: Visibility(
-        visible: errorText != null && errorText!.isNotEmpty,
-        child: Text(
-          errorText ?? '',
-          style: Theme.of(context).textTheme.headline1
-        ),
       ),
     );
   }

@@ -182,6 +182,25 @@ class WeatherLoading extends StatelessWidget {
   }
 }
 
+class AppError extends StatelessWidget {
+  final String? errorText;
+
+  const AppError({Key? key, this.errorText}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Visibility(
+        visible: errorText != null && errorText!.isNotEmpty,
+        child: Text(
+          errorText ?? '',
+          style: Theme.of(context).textTheme.headline1
+        ),
+      ),
+    );
+  }
+}
+
 class WeatherMainData extends StatelessWidget {
   final WeatherViewModel weather;
   const WeatherMainData({Key? key, required this.weather}) : super(key: key);
@@ -191,6 +210,9 @@ class WeatherMainData extends StatelessWidget {
     final theme = Theme.of(context);
     if (weather.loading) {
       return const WeatherLoading();
+    }
+    if (weather.errorServices != null) {
+      return AppError(errorText: weather.errorServices!.errorMessage);
     }
     return SingleChildScrollView(
       physics: const AlwaysScrollableScrollPhysics(),

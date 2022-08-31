@@ -14,10 +14,8 @@ class WeatherViewModel extends GetxController {
   late WeatherModel _weatherModel;
   ErrorServices? _errorServices;
   bool _loading = true;
-  bool _showSnackBar = false;
 
   bool get loading => _loading;
-  bool get showSnack => _showSnackBar;
   WeatherModel get weatherModel => _weatherModel;
   ErrorServices? get errorServices => _errorServices;
 

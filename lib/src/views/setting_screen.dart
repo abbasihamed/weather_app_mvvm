@@ -31,60 +31,62 @@ class _SettingScreenState extends State<SettingScreen> {
 
   getDefaultCity() async {
     _controller.text =
-        await injection.get<SettingController>().getDefaultCity();
+        await injection.get<SettingController>().getDefaultCity() ?? '';
   }
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context).textTheme;
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          'Setting',
-          style: theme.subtitle1,
+    return SafeArea(
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text(
+            'Setting',
+            style: theme.subtitle1,
+          ),
         ),
-      ),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.all(12),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            WeatherTextField(
-              controller: _controller,
-              textStyle: theme.headline1!.copyWith(
-                color: Colors.black,
-                fontSize: 24,
+        body: SingleChildScrollView(
+          padding: const EdgeInsets.all(12),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              WeatherTextField(
+                controller: _controller,
+                textStyle: theme.headline1!.copyWith(
+                  color: Colors.black,
+                  fontSize: 24,
+                ),
+                hintStyle: theme.subtitle1!.copyWith(
+                  fontSize: 18,
+                  color: Colors.black,
+                ),
               ),
-              hintStyle: theme.subtitle1!.copyWith(
-                fontSize: 18,
-                color: Colors.black,
-              ),
-            ),
-          ],
+            ],
+          ),
         ),
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      floatingActionButton: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 12),
-        child: InkWell(
-          onTap: () async {
-            await injection
-                .get<SettingController>()
-                .setDefualtCity(cityName: _controller.text);
-            Get.find<WeatherViewModel>().getWeather();
-            navKey.currentState!.pop();
-          },
-          child: Container(
-            height: 50,
-            width: 250,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(16),
-              color: Colors.blue,
-            ),
-            child: Center(
-              child: Text(
-                'Save',
-                style: theme.headline1,
+        floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+        floatingActionButton: Padding(
+          padding: const EdgeInsets.symmetric(vertical: 12),
+          child: InkWell(
+            onTap: () async {
+              await injection
+                  .get<SettingController>()
+                  .setDefualtCity(cityName: _controller.text);
+              Get.find<WeatherViewModel>().getWeather();
+              navKey.currentState!.pop();
+            },
+            child: Container(
+              height: 50,
+              width: 250,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(16),
+                color: Colors.blue,
+              ),
+              child: Center(
+                child: Text(
+                  'Save',
+                  style: theme.headline1,
+                ),
               ),
             ),
           ),

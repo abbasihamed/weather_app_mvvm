@@ -32,68 +32,70 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     Get.lazyPut(() => WeatherViewModel());
     Get.lazyPut(() => BackgroundController());
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.blue,
-        title: _isSearchMode
-            ? WeatherTextField(
-                controller: _controller,
-              )
-            : Text(
-                'Weather',
-                style: Theme.of(context).textTheme.subtitle1,
-              ),
-        leading: _isSearchMode
-            ? IconButton(
-                onPressed: () {
-                  _isSearchMode = false;
-                  setState(() {});
-                },
-                icon: const Icon(Icons.close),
-              )
-            : null,
-        actions: [
-          _isSearchMode
+    return SafeArea(
+      child: Scaffold(
+        appBar: AppBar(
+          backgroundColor: Colors.blue,
+          title: _isSearchMode
+              ? WeatherTextField(
+                  controller: _controller,
+                )
+              : Text(
+                  'Weather',
+                  style: Theme.of(context).textTheme.subtitle1,
+                ),
+          leading: _isSearchMode
               ? IconButton(
                   onPressed: () {
-                    _isSearchMode = true;
-                    Get.find<WeatherViewModel>()
-                        .searchCityWeather(cityName: _controller.text);
-                    FocusScope.of(context).unfocus();
+                    _isSearchMode = false;
                     setState(() {});
                   },
-                  icon: const Icon(Icons.search),
+                  icon: const Icon(Icons.close),
                 )
-              : IconButton(
-                  onPressed: () {
-                    _isSearchMode = true;              
-                    setState(() {});
-                  },
-                  icon: const Icon(Icons.search),
-                ),
-          if (!_isSearchMode)
-            IconButton(
-              onPressed: () {
-                navKey.currentState!.push(
-                  MaterialPageRoute(
-                    builder: (context) => const SettingScreen(),
+              : null,
+          actions: [
+            _isSearchMode
+                ? IconButton(
+                    onPressed: () {
+                      _isSearchMode = true;
+                      Get.find<WeatherViewModel>()
+                          .searchCityWeather(cityName: _controller.text);
+                      FocusScope.of(context).unfocus();
+                      setState(() {});
+                    },
+                    icon: const Icon(Icons.search),
+                  )
+                : IconButton(
+                    onPressed: () {
+                      _isSearchMode = true;
+                      setState(() {});
+                    },
+                    icon: const Icon(Icons.search),
                   ),
-                );
-              },
-              icon: const Icon(Icons.settings),
-            ),
-        ],
-      ),
-      body: GetBuilder<WeatherViewModel>(
-        init: WeatherViewModel(),
-        builder: (weather) {
-          return Stack(
-            children: [
-              const BackgroundColor(),
-              WeatherMainData(weather: weather),
-            ],
-          );
-        },
+            if (!_isSearchMode)
+              IconButton(
+                onPressed: () {
+                  navKey.currentState!.push(
+                    MaterialPageRoute(
+                      builder: (context) => const SettingScreen(),
+                    ),
+                  );
+                },
+                icon: const Icon(Icons.settings),
+              ),
+          ],
+        ),
+        body: GetBuilder<WeatherViewModel>(
+          init: WeatherViewModel(),
+          builder: (weather) {
+            return Stack(
+              children: [
+                const BackgroundColor(),
+                WeatherMainData(weather: weather),
+              ],
+            );
+          },
+        ),
       ),
     );
   }

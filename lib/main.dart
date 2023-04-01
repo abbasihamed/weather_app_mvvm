@@ -33,7 +33,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       navigatorKey: navKey,
       scaffoldMessengerKey: scaffoldKey,
-      title: 'Weather',
+      title: 'CurrentWeather',
       theme: AppTheme.appTheme,
       home: const HomeScreen(),
     );

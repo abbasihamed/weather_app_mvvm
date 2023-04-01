@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
-<head>
-  <!--
+  <head>
+    <!--
     If you are serving your web app in a path other than the root, change the
     href value below to reflect the base path you are serving from.
 
@@ -14,45 +14,156 @@
     This is a placeholder for base href that will be replaced by the value of
     the `--base-href` argument provided to `flutter build`.
   -->
-  <base href="$FLUTTER_BASE_HREF">
+    <base href="$FLUTTER_BASE_HREF" />
 
-  <meta charset="UTF-8">
-  <meta content="IE=Edge" http-equiv="X-UA-Compatible">
-  <meta name="description" content="A new Flutter project.">
+    <meta charset="UTF-8" />
+    <meta content="IE=Edge" http-equiv="X-UA-Compatible" />
+    <meta name="description" content="A new Flutter project." />
 
-  <!-- iOS meta tags & icons -->
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black">
-  <meta name="apple-mobile-web-app-title" content="weather_mvvm">
-  <link rel="apple-touch-icon" href="icons/Icon-192.png">
+    <!-- iOS meta tags & icons -->
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+    <meta name="apple-mobile-web-app-title" content="weather_mvvm" />
+    <link rel="apple-touch-icon" href="icons/Icon-192.png" />
 
-  <!-- Favicon -->
-  <link rel="icon" type="image/png" href="favicon.png"/>
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="favicon.png" />
 
-  <title>weather_mvvm</title>
-  <link rel="manifest" href="manifest.json">
+    <title>CurrentWeather</title>
+    <link rel="manifest" href="manifest.json" />
 
-  <script>
-    // The value below is injected by flutter build, do not touch.
-    var serviceWorkerVersion = null;
-  </script>
-  <!-- This script adds the flutter initialization JS code -->
-  <script src="flutter.js" defer></script>
-</head>
-<body>
-  <script>
-    window.addEventListener('load', function(ev) {
-      // Download main.dart.js
-      _flutter.loader.loadEntrypoint({
-        serviceWorker: {
-          serviceWorkerVersion: serviceWorkerVersion,
+    <script>
+      // The value below is injected by flutter build, do not touch.
+      var serviceWorkerVersion = null;
+    </script>
+    <!-- This script adds the flutter initialization JS code -->
+    <script src="flutter.js" defer></script>
+
+    <style>
+      body {
+        background: #595bd4;
+        font-family: "Titillium Web", sans-serif;
+      }
+      .loading {
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 50%;
+        width: 100px;
+        color: #fff;
+        margin: auto;
+        -webkit-transform: translateY(-50%);
+        -moz-transform: translateY(-50%);
+        -o-transform: translateY(-50%);
+        transform: translateY(-50%);
+      }
+      .loading span {
+        position: absolute;
+        height: 10px;
+        width: 84px;
+        top: 50px;
+        overflow: hidden;
+      }
+      .loading span > i {
+        position: absolute;
+        height: 4px;
+        width: 4px;
+        border-radius: 50%;
+        -webkit-animation: wait 4s infinite;
+        -moz-animation: wait 4s infinite;
+        -o-animation: wait 4s infinite;
+        animation: wait 4s infinite;
+      }
+      .loading span > i:nth-of-type(1) {
+        left: -28px;
+        background: yellow;
+      }
+      .loading span > i:nth-of-type(2) {
+        left: -21px;
+        -webkit-animation-delay: 0.8s;
+        animation-delay: 0.8s;
+        background: lightgreen;
+      }
+
+      @-webkit-keyframes wait {
+        0% {
+          left: -7px;
         }
-      }).then(function(engineInitializer) {
-        return engineInitializer.initializeEngine();
-      }).then(function(appRunner) {
-        return appRunner.runApp();
+        30% {
+          left: 52px;
+        }
+        60% {
+          left: 22px;
+        }
+        100% {
+          left: 100px;
+        }
+      }
+      @-moz-keyframes wait {
+        0% {
+          left: -7px;
+        }
+        30% {
+          left: 52px;
+        }
+        60% {
+          left: 22px;
+        }
+        100% {
+          left: 100px;
+        }
+      }
+      @-o-keyframes wait {
+        0% {
+          left: -7px;
+        }
+        30% {
+          left: 52px;
+        }
+        60% {
+          left: 22px;
+        }
+        100% {
+          left: 100px;
+        }
+      }
+      @keyframes wait {
+        0% {
+          left: -7px;
+        }
+        30% {
+          left: 52px;
+        }
+        60% {
+          left: 22px;
+        }
+        100% {
+          left: 100px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <script>
+      window.addEventListener("load", function (ev) {
+        // Download main.dart.js
+        _flutter.loader
+          .loadEntrypoint({
+            serviceWorker: {
+              serviceWorkerVersion: serviceWorkerVersion,
+            },
+          })
+          .then(function (engineInitializer) {
+            return engineInitializer.initializeEngine();
+          })
+          .then(function (appRunner) {
+            return appRunner.runApp();
+          });
       });
-    });
-  </script>
-</body>
+    </script>
+    <div class="loading">
+      <p>Please wait</p>
+      <span><i></i><i></i></span>
+    </div>
+  </body>
 </html>

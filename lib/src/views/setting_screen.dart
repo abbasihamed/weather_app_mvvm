@@ -5,7 +5,6 @@ import 'package:weather_mvvm/src/components/app_textfield.dart';
 import 'package:weather_mvvm/src/logic/setting_controller.dart';
 import 'package:weather_mvvm/src/utils/constans.dart';
 import 'package:weather_mvvm/src/view_model/weather_view_model.dart';
-import 'package:weather_mvvm/src/views/home_screen.dart';
 
 class SettingScreen extends StatefulWidget {
   const SettingScreen({Key? key}) : super(key: key);
@@ -16,7 +15,6 @@ class SettingScreen extends StatefulWidget {
 
 class _SettingScreenState extends State<SettingScreen> {
   final TextEditingController _controller = TextEditingController();
-  bool _switchValue = false;
   @override
   void initState() {
     super.initState();

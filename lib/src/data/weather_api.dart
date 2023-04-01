@@ -10,7 +10,7 @@ class WeatherServices {
     try {
       var response = await http.get(
         Uri.parse(
-            'http://api.openweathermap.org/data/2.5/weather?q=$cityName&appid=$apiKey'),
+            'https://api.openweathermap.org/data/2.5/weather?q=$cityName&appid=$apiKey'),
       );
       if (response.statusCode == 200) {
         return Success(

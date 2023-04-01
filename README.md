@@ -1,16 +1,25 @@
-# weather_mvvm
+# CurrentWeather
 
-A new Flutter project.
+### Application to receive weather information
 
-## Getting Started
+For Android
 
-This project is a starting point for a Flutter application.
+- [Download](https://github.com/abbasihamed/weather_app_mvvm/releases/download/v1.0.0/CurrentWeather.apk)
 
-A few resources to get you started if this is your first Flutter project:
+For Web
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+- [CurrentWeather](https://abbasihamed.github.io/deploy_weather/)
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+#### Current Features
+
+:snowflake: Current Weather
+
+:snowflake: Search for the city you want
+
+:snowflake: Default city registration
+
+#### TODO
+
+:soon: Current Location
+
+:soon: Degrees in Fahrenheit

@@ -4,14 +4,14 @@ import 'package:weather_mvvm/injection.dart';
 import 'package:weather_mvvm/src/data/api_state.dart';
 import 'package:weather_mvvm/src/data/weather_api.dart';
 import 'package:weather_mvvm/src/logic/background_controller.dart';
-import 'package:weather_mvvm/src/logic/current_location.dart';
+import 'package:weather_mvvm/src/logic/location_manager.dart';
 import 'package:weather_mvvm/src/logic/validation.dart';
 import 'package:weather_mvvm/src/models/error_models.dart';
 import 'package:weather_mvvm/src/models/weather_models.dart';
 import 'package:weather_mvvm/src/utils/constans.dart';
 
 class WeatherViewModel extends GetxController {
-  final loc = injection.get<CurrentLocation>();
+  final loc = injection.get<LocationManager>();
   late WeatherModel _weatherModel;
   ErrorServices? _errorServices;
   bool _loading = true;

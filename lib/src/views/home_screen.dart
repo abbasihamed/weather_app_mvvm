@@ -5,7 +5,7 @@ import 'package:weather_mvvm/src/components/app_loading.dart';
 import 'package:weather_mvvm/src/components/app_textfield.dart';
 import 'package:weather_mvvm/src/components/background.dart';
 import 'package:weather_mvvm/src/logic/background_controller.dart';
-import 'package:weather_mvvm/src/logic/current_location.dart';
+import 'package:weather_mvvm/src/logic/location_manager.dart';
 import 'package:weather_mvvm/src/logic/get_image.dart';
 import 'package:weather_mvvm/src/logic/to_celsius.dart';
 import 'package:weather_mvvm/src/utils/constans.dart';

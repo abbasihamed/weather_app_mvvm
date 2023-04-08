@@ -1,6 +1,6 @@
 import 'package:location/location.dart';
 
-class CurrentLocation {
+class LocationManager {
   Location location = Location();
   LocationData? _locationData;
 

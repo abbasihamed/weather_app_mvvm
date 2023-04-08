@@ -4,7 +4,7 @@
 
 For Android
 
-- [Download](https://github.com/abbasihamed/weather_app_mvvm/releases/download/v1.0.0/CurrentWeather.apk)
+- [Download](https://github.com/abbasihamed/weather_app_mvvm/releases)
 
 For Web
 
@@ -18,8 +18,8 @@ For Web
 
 :snowflake: Default city registration
 
-#### TODO
+:snowflake: Current Location
 
-:soon: Current Location
+#### TODO
 
 :soon: Degrees in Fahrenheit

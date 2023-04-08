@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:weather_mvvm/injection.dart';
 import 'package:weather_mvvm/src/components/app_textfield.dart';
-import 'package:weather_mvvm/src/logic/setting_controller.dart';
 import 'package:weather_mvvm/src/utils/constans.dart';
 import 'package:weather_mvvm/src/view_model/weather_view_model.dart';
 
@@ -18,7 +16,6 @@ class _SettingScreenState extends State<SettingScreen> {
   @override
   void initState() {
     super.initState();
-    getDefaultCity();
   }
 
   @override
@@ -27,10 +24,6 @@ class _SettingScreenState extends State<SettingScreen> {
     _controller.dispose();
   }
 
-  getDefaultCity() async {
-    _controller.text =
-        await injection.get<SettingController>().getDefaultCity() ?? '';
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -67,10 +60,7 @@ class _SettingScreenState extends State<SettingScreen> {
           padding: const EdgeInsets.symmetric(vertical: 12),
           child: InkWell(
             onTap: () async {
-              await injection
-                  .get<SettingController>()
-                  .setDefualtCity(cityName: _controller.text);
-              Get.find<WeatherViewModel>().getWeather();
+              Get.find<WeatherViewModel>().getCurrentWeather();
               navKey.currentState!.pop();
             },
             child: Container(

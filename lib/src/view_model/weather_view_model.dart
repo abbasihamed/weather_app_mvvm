@@ -4,13 +4,14 @@ import 'package:weather_mvvm/injection.dart';
 import 'package:weather_mvvm/src/data/api_state.dart';
 import 'package:weather_mvvm/src/data/weather_api.dart';
 import 'package:weather_mvvm/src/logic/background_controller.dart';
-import 'package:weather_mvvm/src/logic/setting_controller.dart';
+import 'package:weather_mvvm/src/logic/current_location.dart';
 import 'package:weather_mvvm/src/logic/validation.dart';
 import 'package:weather_mvvm/src/models/error_models.dart';
 import 'package:weather_mvvm/src/models/weather_models.dart';
 import 'package:weather_mvvm/src/utils/constans.dart';
 
 class WeatherViewModel extends GetxController {
+  final loc = injection.get<CurrentLocation>();
   late WeatherModel _weatherModel;
   ErrorServices? _errorServices;
   bool _loading = true;
@@ -34,20 +35,26 @@ class WeatherViewModel extends GetxController {
     update();
   }
 
-  getWeather() async {
+  getCurrentWeather() async {
     setLoading(true);
-    final _cityName = await injection.get<SettingController>().getDefaultCity();
-    var response = await injection
-        .get<WeatherServices>()
-        .getWeather(cityName: _cityName ?? 'London');
-    if (response is Success) {
-      setWeatherData(response.successResponse!);
-      Get.find<BackgroundController>()
-          .weatherConditions(response.successResponse!.weather![0].main!);
-    }
-    if (response is Failure) {
+    final permission = await loc.getPermission();
+    if (permission) {
+      final location = await loc.getLocation();
+      var response = await injection.get<WeatherServices>().getCurrentWeather(
+          location!.latitude.toString(), location.longitude.toString());
+      if (response is Success) {
+        setWeatherData(response.successResponse!);
+        Get.find<BackgroundController>()
+            .weatherConditions(response.successResponse!.weather![0].main!);
+      }
+      if (response is Failure) {
+        ErrorServices errorServices = ErrorServices(
+            code: response.code, errorMessage: response.failureResponse);
+        setErrorServices(errorServices);
+      }
+    } else {
       ErrorServices errorServices = ErrorServices(
-          code: response.code, errorMessage: response.failureResponse);
+          code: 400, errorMessage: "Don't have access to location");
       setErrorServices(errorServices);
     }
     setLoading(false);
@@ -89,6 +96,6 @@ class WeatherViewModel extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    getWeather();
+    getCurrentWeather();
   }
 }
